@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { PropTypes } from 'prop-types';
 
+import Loading from './Loading';
+
 import { Rooms } from '../api/rooms';
 
 class Room extends Component {
+  renderRoom() {
+    return (
+      <div className="Room">
+        <h1>{this.props.room.name}</h1>
+      </div>
+    );
+  }
+
   render() {
-    if (this.props.room) {
-      return (
-        <div className="Room">
-          <h1>{this.props.room.name}</h1>
-        </div>
-      );
-    } else {
-      return <div>loading...</div>;
-    }
+    return this.props.room ? this.renderRoom() : <Loading/>;
   }
 }
 
