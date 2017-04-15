@@ -9,14 +9,14 @@ import { Rooms } from '../api/rooms';
 class RoomsList extends Component {
   handleSubmit(event) {
     event.preventDefault();
-    const roomName = ReactDOM.findDOMNode(this.refs.roomName).value.trim();
+    const name = ReactDOM.findDOMNode(this.refs.name).value.trim();
 
-    Rooms.insert({
-      name: roomName,
+    Meteor.call('createRoom', {
+      name: name,
       createdAt: new Date()
     }, (error, success) => {
       if (success) {
-        ReactDOM.findDOMNode(this.refs.roomName).value = '';
+        ReactDOM.findDOMNode(this.refs.name).value = '';
       }
     });
   }
@@ -25,14 +25,20 @@ class RoomsList extends Component {
     return (
       <div className="Romas">
         <h1>Rooms</h1>
-        {this.props.rooms.map((room) => {
-          return <Link key={room._id} to={room._id}>{room.name}</Link>;
-        })}
+        <ul>
+          {this.props.rooms.map((room) => {
+            return (
+              <li key={room._id}>
+                <Link to={room._id}>{room.name}</Link>
+              </li>
+            );
+          })}
+        </ul>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <input
             type="text"
             required
-            ref="roomName"
+            ref="name"
             placeholder="Type and press enter to create a room"/>
         </form>
       </div>
