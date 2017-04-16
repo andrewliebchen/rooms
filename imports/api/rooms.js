@@ -6,7 +6,8 @@ Meteor.methods({
   createRoom(params) {
     return Rooms.insert({
       name: params.name,
-      createdAt: params.createdAt
+      createdAt: params.createdAt,
+      createdBy: params.createdBy,
     });
   }
 });

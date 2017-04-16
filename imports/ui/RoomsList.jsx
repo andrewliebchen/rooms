@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import AccountsUIWrapper from './AccountsUIWrapper';
+
 import { Rooms } from '../api/rooms';
 
 class RoomsList extends Component {
@@ -13,7 +15,8 @@ class RoomsList extends Component {
 
     Meteor.call('createRoom', {
       name: name,
-      createdAt: new Date()
+      createdAt: new Date(),
+      createdBy: Meteor.userId(),
     }, (error, success) => {
       if (success) {
         ReactDOM.findDOMNode(this.refs.name).value = '';
@@ -21,10 +24,23 @@ class RoomsList extends Component {
     });
   }
 
+  renderCreateRoom() {
+    return (
+      <form onSubmit={this.handleSubmit.bind(this)}>
+        <input
+          type="text"
+          required
+          ref="name"
+          placeholder="Type and press enter to create a room"/>
+      </form>
+    );
+  }
+
   render() {
     return (
-      <div className="Romas">
+      <div className="Rooms">
         <h1>Rooms</h1>
+        <AccountsUIWrapper/>
         <ul>
           {this.props.rooms.map((room) => {
             return (
@@ -34,13 +50,7 @@ class RoomsList extends Component {
             );
           })}
         </ul>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <input
-            type="text"
-            required
-            ref="name"
-            placeholder="Type and press enter to create a room"/>
-        </form>
+        {Meteor.user() && this.renderCreateRoom()}
       </div>
     );
   }
