@@ -24,6 +24,12 @@ class RoomsList extends Component {
     });
   }
 
+  handleDestroyRoom(roomId) {
+    if (window.confirm('Are you sure you want to delete this room?')) {
+      Meteor.call('destroyRoom', roomId);
+    }
+  }
+
   renderCreateRoom() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
@@ -46,6 +52,7 @@ class RoomsList extends Component {
             return (
               <li key={room._id}>
                 <Link to={room._id}>{room.name}</Link>
+                &nbsp;<button onClick={this.handleDestroyRoom.bind(this, room._id)}>X</button>
               </li>
             );
           })}

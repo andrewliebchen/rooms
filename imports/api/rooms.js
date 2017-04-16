@@ -9,5 +9,9 @@ Meteor.methods({
       createdAt: params.createdAt,
       createdBy: params.createdBy,
     });
+  },
+
+  destroyRoom(id) {
+    Rooms.remove(id);
   }
 });
