@@ -2,3 +2,8 @@ html,
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
+
+.a-body {
+  background-color: #333;
+  color: white;
+}
